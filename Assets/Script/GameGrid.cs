@@ -14,7 +14,7 @@ public class GameGrid : MonoBehaviour {
     public TileType[,] tileTypeMap;
 
 	// Use this for initialization
-	void Start () {
+	void Awake() {
 
         LoadMaps();
 
@@ -45,7 +45,7 @@ public class GameGrid : MonoBehaviour {
         {
             for (int y = 0; y < sizeY; y++)
             {
-                Vector3 position = new Vector3(x,y,0);
+                Vector3 position = new Vector3(x,y,1);
 
                 GameObject go = Instantiate(tilePrefab,position,Quaternion.identity,gameObject.transform);
 
@@ -68,7 +68,7 @@ public class GameGrid : MonoBehaviour {
         }
 
 
-        Vector3 camPos = new Vector3(sizeX / 2f, sizeY / 2f, -10);
+        Vector3 camPos = new Vector3((sizeX-1) / 2f, (sizeY-1) / 2f, -10);
         Camera.main.transform.position = camPos;
     }
 

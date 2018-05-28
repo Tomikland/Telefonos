@@ -5,23 +5,32 @@ using UnityEngine;
 public class Enemy : MonoBehaviour {
 
     GameMaster gm;
+    GameGrid gg;
 
-    List<Tile> path = new List<Tile>();
+    public List<Tile> path = new List<Tile>();
 
-    float speed = 1f;
-    Sprite enemySprite;
+    public float speed = 0.5f;
+    public Sprite enemySprite;
 
-    Tile currTile;
-    Tile nextTile;
+    public Tile currTile;
+    public Tile nextTile;
     public int currIndex = 0;
 
 
 	// Use this for initialization
 	void Start () {
         gm = GameObject.FindObjectOfType<GameMaster>();
+        gg = GameObject.FindObjectOfType<GameGrid>();
+
+        //path for testing
+        path.Add(gg.tiles[0, 0]);
+        path.Add(gg.tiles[1, 0]);
+        path.Add(gg.tiles[2, 0]);
 
         currTile = path[currIndex];
         nextTile = path[currIndex + 1];
+
+        transform.position = TileHelper.TilePosition(currTile);
     }
 	
 	// Update is called once per frame
@@ -30,14 +39,23 @@ public class Enemy : MonoBehaviour {
         Vector3 pos = transform.position;
 
         //Vector3 pos1 = TileHelper.PositionOfTile(currTile);
-        Vector3 pos2= TileHelper.PositionOfTile(nextTile);
+        Vector3 pos2= TileHelper.TilePosition(nextTile);
 
         if (Vector3.Distance(pos,pos2) < 0.01f)
         {
-            currIndex++;
 
             currTile = path[currIndex];
-            nextTile = path[currIndex + 1];
+
+            if (currIndex == path.Count - 1)
+            {
+                //despawn enemy
+                
+            }
+            else
+            {
+                nextTile = path[currIndex + 1];
+                currIndex++; 
+            }
         }
 
         pos = Vector3.MoveTowards(pos, pos2, speed * Time.deltaTime);
