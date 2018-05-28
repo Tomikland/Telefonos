@@ -2,19 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tile : MonoBehaviour {
+public enum TileType {Path, Buildable, Unbuildable, Unassigned};
 
-    public enum TileType {Path, Buildable, UnBuildable};
+public class Tile {
 
-    public TileType tileType = TileType.Buildable;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public TileType tileType;
+
+    public GameObject tileGo;
+
+    public Tile()
+    {
+        tileType = TileType.Buildable;
+    }
 }
