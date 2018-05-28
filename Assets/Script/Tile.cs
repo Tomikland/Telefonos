@@ -6,13 +6,19 @@ public enum TileType {Path, Buildable, Unbuildable, Unassigned};
 
 public class Tile {
 
+    public int x;
+    public int y;
 
     public TileType tileType;
 
     public GameObject tileGo;
 
-    public Tile()
+
+
+    public Tile(int _x, int _y)
     {
-        tileType = TileType.Buildable;
+        x = _x;
+        y = _y;
+        tileType = TileType.Unassigned;
     }
 }

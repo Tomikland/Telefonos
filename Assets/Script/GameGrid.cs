@@ -51,7 +51,7 @@ public class GameGrid : MonoBehaviour {
 
                 go.name = "Tile " + x + "_" + y;
 
-                Tile tileScript = new Tile();
+                Tile tileScript = new Tile(x,y);
                 tileScript.tileGo = go;
 
                 tiles[x, y] = tileScript;
@@ -72,7 +72,7 @@ public class GameGrid : MonoBehaviour {
         Camera.main.transform.position = camPos;
     }
 
-    void ReadMap(int index)
+    public void ReadMap(int index)
     {
         Texture2D texture = mapList[index];
         tileTypeMap = new TileType[texture.width, texture.height];
@@ -119,7 +119,7 @@ public class GameGrid : MonoBehaviour {
             }
             else
             {
-                Debug.Log("Load stopped at" + mapNum);
+                Debug.Log("Load stopped at " + mapNum);
                 break;
             }
 
