@@ -21,4 +21,13 @@ public class Tile {
         y = _y;
         tileType = TileType.Unassigned;
     }
+    public Vector2 Position()
+    {
+        return new Vector2(x, y);
+    }
+
+    public override string ToString()
+    {
+        return "T" + x + "_" + y;
+    }
 }

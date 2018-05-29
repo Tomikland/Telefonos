@@ -9,12 +9,16 @@ public class Enemy : MonoBehaviour {
 
     public List<Tile> path = new List<Tile>();
 
-    public float speed = 0.5f;
+    public float speed = 1f;
     public Sprite enemySprite;
+    public GameObject spriteGO;
 
     public Tile currTile;
     public Tile nextTile;
     public int currIndex = 0;
+
+    public Vector2 prediction;
+
 
 
 	// Use this for initialization
@@ -28,6 +32,8 @@ public class Enemy : MonoBehaviour {
         nextTile = path[currIndex + 1];
 
         transform.position = TileHelper.TilePosition(currTile);
+
+        prediction = TileHelper.PredictEnemyPos(this, 2.6f);
     }
 	
 	// Update is called once per frame
@@ -45,8 +51,10 @@ public class Enemy : MonoBehaviour {
 
             if (currIndex == path.Count - 1)
             {
+                gm.DamagePlayer();
                 //despawn enemy
-                
+
+                Destroy(this.gameObject);
             }
             else
             {
@@ -60,5 +68,7 @@ public class Enemy : MonoBehaviour {
 
         transform.position = pos;
 
+        Vector2 dir = nextTile.Position() - currTile.Position();
+        spriteGO.transform.up = dir;
 	}
 }

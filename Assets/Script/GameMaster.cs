@@ -16,4 +16,9 @@ public class GameMaster : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    public void DamagePlayer()
+    {
+
+    }
 }

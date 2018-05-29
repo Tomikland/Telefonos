@@ -2,19 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Placeable : MonoBehaviour {
-
-    public int price;
-    
+public class EnemySpawner : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
 		
 	}
 	
+        float cooldown;
 	// Update is called once per frame
 	void Update () {
-		
-	}
 
+
+	}
 }

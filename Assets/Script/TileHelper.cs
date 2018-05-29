@@ -39,4 +39,27 @@ public static class TileHelper {
     {
         tiles = t;
     }
+    
+    public static Vector2 PredictEnemyPos(Enemy enemy, float t)
+    {
+        Vector2 pos = enemy.transform.position;
+        Vector2 startdelta = pos - enemy.currTile.Position();
+        
+        int endTileIndex = enemy.currIndex + Mathf.FloorToInt(t * enemy.speed);
+        Tile endTile = enemy.path[endTileIndex];
+
+
+        Vector2 startDir = enemy.nextTile.Position() - enemy.currTile.Position();
+
+        Vector2 endDir =  enemy.path[endTileIndex + 1].Position() - enemy.path[endTileIndex].Position();
+
+        float remainder = t / enemy.speed - Mathf.Floor(t / enemy.speed);
+
+        Vector2 endDelta = endDir * remainder;
+
+        //Debug.Log("enemy speed: "+enemy.speed+"Endtile: "+ endTile +"EndDir: " +endDir+ " Remainder: " + remainder + " EndDelta: "+ endDelta);
+
+        return endTile.Position();
+            
+    }
 }
