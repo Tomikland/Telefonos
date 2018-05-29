@@ -39,27 +39,27 @@ public static class TileHelper {
     {
         tiles = t;
     }
+
+    public static Vector2 RoundVector(Vector2 a)
+    {
+        return new Vector2(Mathf.Round(a.x) , Mathf.Round(a.y));
+    }
     
     public static Vector2 PredictEnemyPos(Enemy enemy, float t)
     {
         Vector2 pos = enemy.transform.position;
-        Vector2 startdelta = pos - enemy.currTile.Position();
-        
-        int endTileIndex = enemy.currIndex + Mathf.FloorToInt(t * enemy.speed);
-        Tile endTile = enemy.path[endTileIndex];
-
-
-        Vector2 startDir = enemy.nextTile.Position() - enemy.currTile.Position();
-
-        Vector2 endDir =  enemy.path[endTileIndex + 1].Position() - enemy.path[endTileIndex].Position();
-
-        float remainder = t / enemy.speed - Mathf.Floor(t / enemy.speed);
-
-        Vector2 endDelta = endDir * remainder;
-
-        //Debug.Log("enemy speed: "+enemy.speed+"Endtile: "+ endTile +"EndDir: " +endDir+ " Remainder: " + remainder + " EndDelta: "+ endDelta);
-
-        return endTile.Position();
-            
+        Vector2 pos2 = RoundVector(pos);
+        Vector2 remainder_pos = pos2 - pos;
+        float full = enemy.speed * t;
+        int index = Mathf.RoundToInt(enemy.speed * t);
+        float remainder = full - index;
+        Vector2 endDir = 
+            Mathf.Sign(remainder) == -1 ? 
+            enemy.path[index + enemy.currIndex].Position() - enemy.path[(index - 1) + enemy.currIndex].Position() 
+            : 
+            enemy.path[(index + 1) + enemy.currIndex].Position() - enemy.path[index + enemy.currIndex].Position();
+        Tile endTile = enemy.path[index + enemy.currIndex];
+        Vector2 result = endTile.Position() + remainder_pos + (endDir * remainder);
+        return result;
     }
 }
