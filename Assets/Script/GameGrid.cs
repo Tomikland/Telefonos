@@ -13,6 +13,10 @@ public class GameGrid : MonoBehaviour {
     public int mapIndex;
     public TileType[,] tileTypeMap;
 
+    public List<Tile> path;
+    Vector2Int pathStart;
+    Vector2Int pathEnd;
+
 	// Use this for initialization
 	void Awake() {
 
@@ -22,7 +26,11 @@ public class GameGrid : MonoBehaviour {
 
         Generate(mapList[mapIndex].width, mapList[mapIndex].height);
 
-	}
+        TileHelper.SetTileArray(tiles);
+
+        path = PathFinder.FindPath(tiles, tiles[pathStart.x, pathStart.y], tiles[pathEnd.x, pathEnd.y]);
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -70,6 +78,8 @@ public class GameGrid : MonoBehaviour {
 
         Vector3 camPos = new Vector3((sizeX-1) / 2f, (sizeY-1) / 2f, -10);
         Camera.main.transform.position = camPos;
+
+        
     }
 
     public void ReadMap(int index)
@@ -89,13 +99,23 @@ public class GameGrid : MonoBehaviour {
                 {
                     type = TileType.Buildable;
                 }
-                if (color == Color.red)
+                else if (color == Color.red)
                 {
                     type = TileType.Unbuildable;
                 }
-                if (color == new Color(1f, 1f, 0f))
+                else if(color == new Color(1f, 1f, 0f))
                 {
                     type = TileType.Path;
+                }
+                else if(color == Color.white)
+                {
+                    type = TileType.Path;
+                    pathStart = new Vector2Int(x, y);
+                }
+                else if (color == Color.black)
+                {
+                    type = TileType.Path;
+                    pathEnd = new Vector2Int(x, y);
                 }
 
                 tileTypeMap[x, y] = type;

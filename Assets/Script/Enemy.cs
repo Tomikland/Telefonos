@@ -22,10 +22,7 @@ public class Enemy : MonoBehaviour {
         gm = GameObject.FindObjectOfType<GameMaster>();
         gg = GameObject.FindObjectOfType<GameGrid>();
 
-        //path for testing
-        path.Add(gg.tiles[0, 0]);
-        path.Add(gg.tiles[1, 0]);
-        path.Add(gg.tiles[2, 0]);
+        path = gg.path;
 
         currTile = path[currIndex];
         nextTile = path[currIndex + 1];
