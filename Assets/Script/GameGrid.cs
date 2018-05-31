@@ -22,7 +22,7 @@ public class GameGrid : MonoBehaviour {
 
         LoadMaps();
 
-        ReadMap(0);
+        ReadMap(mapIndex);
 
         Generate(mapList[mapIndex].width, mapList[mapIndex].height);
 
@@ -38,7 +38,7 @@ public class GameGrid : MonoBehaviour {
 	}
 
 
-    void Generate(int sizeX, int sizeY)
+    public void Generate(int sizeX, int sizeY)
     {
         for (int i = 0; i < transform.childCount; i++)
         {
@@ -79,6 +79,7 @@ public class GameGrid : MonoBehaviour {
         Vector3 camPos = new Vector3((sizeX-1) / 2f, (sizeY-1) / 2f, -10);
         Camera.main.transform.position = camPos;
 
+        Camera.main.orthographicSize = sizeY/2f;
         
     }
 

@@ -32,7 +32,7 @@ public static class PathFinder  {
 
         }
         while (currTile != dest && count < 100);
-        Debug.Log("Path found in " + count + "iterations");
+        Debug.Log("Path found in " + count + " iterations");
 
             return path;
     }

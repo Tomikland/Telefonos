@@ -13,6 +13,7 @@ public class Tile {
 
     public GameObject tileGo;
 
+    public Placeable building = null;
 
 
     public Tile(int _x, int _y)

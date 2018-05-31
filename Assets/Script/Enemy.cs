@@ -33,11 +33,21 @@ public class Enemy : MonoBehaviour {
 
         transform.position = TileHelper.TilePosition(currTile);
 
-        prediction = TileHelper.PredictEnemyPos(this, 2.6f);
+        //prediction = TileHelper.PredictEnemyPos(this, 2.6f);
     }
 	
 	// Update is called once per frame
 	void Update () {
+
+        if(gm.gameOn == false)
+        {
+            return;
+        }
+
+        if(path.Count < 1)
+        {
+            path = gg.path;
+        }
 
         Vector3 pos = transform.position;
 
@@ -49,17 +59,18 @@ public class Enemy : MonoBehaviour {
 
             currTile = path[currIndex];
 
-            if (currIndex == path.Count - 1)
+            if (currIndex == path.Count - 2)
             {
                 gm.DamagePlayer();
                 //despawn enemy
-
+                
+                
                 Destroy(this.gameObject);
             }
             else
             {
-                nextTile = path[currIndex + 1];
                 currIndex++; 
+                nextTile = path[currIndex + 1];
             }
         }
 
