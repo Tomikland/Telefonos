@@ -5,12 +5,15 @@ using UnityEngine;
 public class Projectile : MonoBehaviour {
 
     public float speed;
+    public Enemy target;
     public Vector2 dest;
+
+    public GameMaster gm;
 
 	// Use this for initialization
 	void Start () {
-		
-	}
+		gm = GameObject.FindObjectOfType<GameMaster>();
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -28,6 +31,11 @@ public class Projectile : MonoBehaviour {
 
     void Explode()
     {
-
+        if (target != null)
+        {
+            gm.SetMoney(gm.money + 1);
+            Destroy(target.gameObject);
+        }
+        Destroy(gameObject);
     }
 }
