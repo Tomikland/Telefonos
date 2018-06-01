@@ -16,13 +16,17 @@ public class Cannon : Placeable {
 
     public GameMaster gm;
 
+    Lines lines;
+
 
 	// Use this for initialization
 	void Start () {
 
         gm = GameObject.FindObjectOfType<GameMaster>();
+        lines = FindObjectOfType<Lines>();
 
         price = 10;
+        lines.Flush();
 	}
 	
 	// Update is called once per frame
@@ -32,26 +36,54 @@ public class Cannon : Placeable {
 
         shotCooldown -= Time.deltaTime;
 
+
 		if(shotCooldown <= 0 )
         {
+            lines.Flush();
             Enemy target = FindEnemy();
                 shotCooldown = baseCooldown;
             if (target != null && target.path.Count > 0)
             {
+                Vector2 p = target.transform.position;
+                float t = 0;
+                float delta;
+                int i = 0;
+                Vector2 result;
 
+                do
+                {
+                    lines.DrawNewLine(transform.position,p);
+
+                    Vector2 lastP = p;
+                    t = Vector2.Distance(p, transform.position) / projectileSpeed;
+                    p = TileHelper.PredictEnemyPos(target, t);
+
+                    Debug.Log(p);
+
+
+                    delta = Vector2.Distance(p, lastP);
+
+                    if(i == 10)
+                    {
+                        Debug.Log("Couldn't find it in 500 iterations. That kind of sucks.");
+                        result = target.transform.position;
+                        return;//break;
+                    }
+
+                    result = p;
+                    i++;
+                }
+                while (delta > 0.1);
+                
                 //Shoot
-                float t = Vector3.Distance(target.transform.position, transform.position) / projectileSpeed;
-
-                //Debug.Log("Shoot!!");
-
                 GameObject go = Instantiate(projectilePrefab, transform.position, Quaternion.identity, transform);
 
                 Projectile pr = go.GetComponent<Projectile>();
 
-                pr.dest = TileHelper.PredictEnemyPos(target, t);
-                //pr.dest = target.transform.position;
+                pr.dest = result;
                 pr.target = target;
                 pr.speed = projectileSpeed;
+                
             }
 
         }

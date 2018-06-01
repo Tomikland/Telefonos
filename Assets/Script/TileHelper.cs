@@ -52,12 +52,6 @@ public static class TileHelper {
     
     public static Vector2 PredictEnemyPos(Enemy enemy, float t)
     {
-
-        //Debug.Log(enemy.path.Count);
-
-        {
-       //     Debug.Log(enemy.gameObject.name);
-        }
         Vector2 pos = enemy.transform.position;
         Vector2 pos2 = RoundVector(pos);
         Vector2 remainder_pos = pos2 - pos;
@@ -65,13 +59,17 @@ public static class TileHelper {
         int index = Mathf.RoundToInt(enemy.speed * t);
         float remainder = full - index;
         Vector2 endDir = 
-            Mathf.Sign(remainder) == -1 && index + enemy.currIndex <= enemy.path.Count ? 
+            Mathf.Sign(remainder) == -1 && index + enemy.currIndex < enemy.path.Count ? 
             enemy.path[index + enemy.currIndex].Position() - enemy.path[(index - 1) + enemy.currIndex].Position() 
             : 
             enemy.path[(index + 1) + enemy.currIndex].Position() - enemy.path[index + enemy.currIndex].Position();
         Tile endTile;   
             endTile = enemy.path[index + enemy.currIndex];
-        Vector2 result = endTile.Position() + remainder_pos + (endDir * remainder);
+        Vector2 result = endTile.Position() + (endDir * remainder_pos) + (endDir * remainder);
+
+        //Debug.Log("After "+ t + " seconds the boat will be in" + endTile+ "Enemy pos: " + pos);
+
         return result;
     }
+
 }
