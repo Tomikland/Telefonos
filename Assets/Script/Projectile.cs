@@ -36,6 +36,7 @@ public class Projectile : MonoBehaviour {
             gm.SetMoney(gm.money + 1);
             Destroy(target.gameObject);
         }
+        FindObjectOfType<Lines>().Flush();
         Destroy(gameObject);
     }
 }

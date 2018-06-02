@@ -52,26 +52,24 @@ public static class TileHelper {
     
     public static Vector2 PredictEnemyPos(Enemy enemy, float t)
     {
-
-        //Debug.Log(enemy.path.Count);
-
-        {
-       //     Debug.Log(enemy.gameObject.name);
-        }
         Vector2 pos = enemy.transform.position;
         Vector2 pos2 = RoundVector(pos);
-        Vector2 remainder_pos = pos2 - pos;
-        float full = enemy.speed * t;
+        float remainder_pos = Vector2.Distance(pos,pos2) ; //start point to start tile
+        float full = enemy.speed * t; //distance from start point to end point
         int index = Mathf.RoundToInt(enemy.speed * t);
-        float remainder = full - index;
-        Vector2 endDir = 
-            Mathf.Sign(remainder) == -1 && index + enemy.currIndex <= enemy.path.Count ? 
-            enemy.path[index + enemy.currIndex].Position() - enemy.path[(index - 1) + enemy.currIndex].Position() 
-            : 
-            enemy.path[(index + 1) + enemy.currIndex].Position() - enemy.path[index + enemy.currIndex].Position();
-        Tile endTile;   
-            endTile = enemy.path[index + enemy.currIndex];
-        Vector2 result = endTile.Position() + remainder_pos + (endDir * remainder);
+        int endIndex = index + enemy.currIndex; //index of the end tile
+        float remainder = full - index; //end tile to end point
+        Vector2 endDir =
+        Mathf.Sign(remainder_pos + remainder) == -1 && index + enemy.currIndex < enemy.path.Count ? 
+        enemy.path[index + enemy.currIndex].Position() - enemy.path[(index - 1) + enemy.currIndex].Position() 
+        : 
+        enemy.path[(index + 1) + enemy.currIndex].Position() - enemy.path[index + enemy.currIndex].Position();
+        Tile  endTile = enemy.path[index + enemy.currIndex];
+        Vector2 result = endTile.Position() + endDir * (remainder_pos + remainder);
+
+        Debug.Log("After "+ t + " seconds the boat will be at " + result+ " Enemy pos: " + pos);
+
         return result;
     }
+
 }

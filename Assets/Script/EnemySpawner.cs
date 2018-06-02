@@ -31,7 +31,7 @@ public class EnemySpawner : MonoBehaviour {
             GameObject go = Instantiate(enemyPrefab,transform);
 
 
-            cooldown = Mathf.Lerp(minCooldown, maxCooldown, 1 / 1 / Time.time);
+            cooldown = 2f;//Mathf.Lerp(minCooldown, maxCooldown, 1 / 1 / Time.time);
             samplePos++;
 
         }

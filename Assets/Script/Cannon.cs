@@ -15,47 +15,77 @@ public class Cannon : Placeable {
     public GameObject projectilePrefab;
 
     public GameMaster gm;
+    public float increment = 0.05f;
+    public float threshold = 0.05f;
+
+    Lines lines;
 
 
 	// Use this for initialization
 	void Start () {
 
         gm = GameObject.FindObjectOfType<GameMaster>();
+        lines = FindObjectOfType<Lines>();
 
         price = 10;
+        lines.Flush();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
+
+        //Enemy target = FindEnemy();
+       // Vector2 p = target.transform.position;
+       // lines.DrawNewLine(p, this.transform.position);
+
+        
         if (gm.gameOn == false) { return; }
 
         shotCooldown -= Time.deltaTime;
 
+
 		if(shotCooldown <= 0 )
         {
+            lines.Flush();
             Enemy target = FindEnemy();
                 shotCooldown = baseCooldown;
             if (target != null && target.path.Count > 0)
             {
+                float d1;
+                float d2;
+                Vector2 p = target.transform.position;
+                Vector2 result;
+                float t = 0;
 
+                do
+                {
+                    t += increment;
+                    p = TileHelper.PredictEnemyPos(target, t);
+
+                    d1 = Vector2.Distance(p, target.transform.position);
+                    d2 = Vector2.Distance(p, transform.position);
+
+                    Debug.Log(d1 + " , " + d2);
+
+                } while (Mathf.Abs( d1 / d2 - (target.speed / projectileSpeed)) > threshold);
+
+                result = p;
+
+                //Debug.Log(p);
                 //Shoot
-                float t = Vector3.Distance(target.transform.position, transform.position) / projectileSpeed;
-
-                //Debug.Log("Shoot!!");
-
                 GameObject go = Instantiate(projectilePrefab, transform.position, Quaternion.identity, transform);
 
                 Projectile pr = go.GetComponent<Projectile>();
 
-                pr.dest = TileHelper.PredictEnemyPos(target, t);
-                //pr.dest = target.transform.position;
+                pr.dest = result;
                 pr.target = target;
                 pr.speed = projectileSpeed;
-            }
 
+            }
         }
-	}
+            
+    }
 
     public Enemy FindEnemy()
     {
@@ -73,7 +103,7 @@ public class Cannon : Placeable {
                 //Debug.Log("futi");
                 if(enemies[i].tag != "Targeted" && Vector3.Distance(transform.position,enemies[i].transform.position) <= range)
                 {
-                    Debug.Log(gameObject.name);
+                    //Debug.Log(gameObject.name);
 
                     enemies[i].tag = "Targeted";
                     return enemies[i];
