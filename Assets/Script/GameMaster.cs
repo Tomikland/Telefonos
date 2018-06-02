@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class GameMaster : MonoBehaviour {
 
+    GameGrid gg;
+
     public int money = 200;
     public int health = 3;
     public bool gameOn;
@@ -14,8 +16,13 @@ public class GameMaster : MonoBehaviour {
     public Text moneyText;
     public Text healthText;
 
+    public List<Enemy> activeEnemies;
+
 	// Use this for initialization
 	void Start () {
+
+
+        gg = FindObjectOfType<GameGrid>();
         string hptext = "Élet: " + health;
         healthText.text = hptext;
 
@@ -58,5 +65,28 @@ public class GameMaster : MonoBehaviour {
     {
         gameovertext.gameObject.SetActive(true);
         gameOn = false;
+    }
+
+    public void NextLevel()
+    {
+        Debug.Log("NEXTLEVEL");
+        gameOn = false;
+
+        gg.mapIndex++;
+        gg.SetUpMap();
+
+        Reset();
+        gameOn = true;
+    }
+    public void Reset()
+    {
+        Placer pl = FindObjectOfType<Placer>();
+        for (int i = 0; i < pl.transform.childCount; i++)
+        {
+            Destroy(pl.transform.GetChild(i).gameObject);
+
+        }
+            health = 3;
+            money = 200;
     }
 }

@@ -67,7 +67,7 @@ public static class TileHelper {
         Tile  endTile = enemy.path[index + enemy.currIndex];
         Vector2 result = endTile.Position() + endDir * (remainder_pos + remainder);
 
-        Debug.Log("After "+ t + " seconds the boat will be at " + result+ " Enemy pos: " + pos);
+        //Debug.Log("After "+ t + " seconds the boat will be at " + result+ " Enemy pos: " + pos);
 
         return result;
     }

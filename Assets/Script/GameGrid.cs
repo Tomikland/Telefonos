@@ -38,11 +38,22 @@ public class GameGrid : MonoBehaviour {
 	}
 
 
+    public void SetUpMap()
+    {
+        ReadMap(mapIndex);
+
+        Generate(mapList[mapIndex].width, mapList[mapIndex].height);
+
+        TileHelper.SetTileArray(tiles);
+
+        path = PathFinder.FindPath(tiles, tiles[pathStart.x, pathStart.y], tiles[pathEnd.x, pathEnd.y]);
+    }
+
     public void Generate(int sizeX, int sizeY)
     {
         for (int i = 0; i < transform.childCount; i++)
         {
-            Destroy(transform.GetChild(i));
+            Destroy(transform.GetChild(i).gameObject);
         }
         
 
@@ -85,6 +96,8 @@ public class GameGrid : MonoBehaviour {
 
     public void ReadMap(int index)
     {
+        Debug.Log("Reading map "+ index);
+
         Texture2D texture = mapList[index];
         tileTypeMap = new TileType[texture.width, texture.height];
 

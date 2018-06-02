@@ -34,8 +34,11 @@ public class Projectile : MonoBehaviour {
         if (target != null)
         {
             gm.SetMoney(gm.money + 1);
+            gm.activeEnemies.Remove(target);
             Destroy(target.gameObject);
         }
+
+
         FindObjectOfType<Lines>().Flush();
         Destroy(gameObject);
     }
