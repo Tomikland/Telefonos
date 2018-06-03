@@ -6,7 +6,7 @@ using System.Linq;
 public class Cannon : Placeable {
 
     public float range = 3f;
-    public float damage = 1f;
+    public int damage = 1;
     public float projectileSpeed = 1f;
 
     public float baseCooldown = 1f;
@@ -63,10 +63,14 @@ public class Cannon : Placeable {
                     t += increment;
                     p = TileHelper.PredictEnemyPos(target, t);
 
+                    if(p == Vector2.zero)
+                    {
+                        //Debug.Log("Couldn't find a shot");
+                        //return;
+                    }
+
                     d1 = Vector2.Distance(p, target.transform.position);
                     d2 = Vector2.Distance(p, transform.position);
-
-                    Debug.Log(d1 + " , " + d2);
 
                 } while (Mathf.Abs( d1 / d2 - (target.speed / projectileSpeed)) > threshold);
 
@@ -74,12 +78,19 @@ public class Cannon : Placeable {
 
                 //Debug.Log(p);
                 //Shoot
-                GameObject go = Instantiate(projectilePrefab, transform.position, Quaternion.identity, transform);
+
+                Vector3 offset = new Vector3(0, 0, -0.1f);
+                GameObject go = Instantiate(projectilePrefab, transform.position + offset, Quaternion.identity, transform);
 
                 Projectile pr = go.GetComponent<Projectile>();
 
+                Vector2 cannonPos = transform.position;
+
+                //transform.rotation = Quaternion.FromToRotation(transform.position, result);
+
                 pr.dest = result;
                 pr.target = target;
+                pr.damage = this.damage;
                 pr.speed = projectileSpeed;
 
             }
