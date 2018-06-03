@@ -11,13 +11,17 @@ public class Enemy : MonoBehaviour {
 
     public float speed = 1f;
     public Sprite enemySprite;
+    public int startHealth = 1;
+    public int currHealth;
     public GameObject spriteGO;
 
     public Tile currTile;
     public Tile nextTile;
     public int currIndex = 0;
 
-    public Vector2 prediction;
+    public Vector2 dir;
+
+    public GameObject healthBar;
 
 
 
@@ -33,13 +37,17 @@ public class Enemy : MonoBehaviour {
 
         transform.position = TileHelper.TilePosition(currTile);
 
+        currHealth = startHealth;
+
         //prediction = TileHelper.PredictEnemyPos(this, 2.6f);
     }
 	
 	// Update is called once per frame
 	void Update () {
 
-        if(gm.gameOn == false)
+        
+
+        if (gm.gameOn == false)
         {
             return;
         }
@@ -61,6 +69,7 @@ public class Enemy : MonoBehaviour {
 
             if (currIndex == path.Count - 2)
             {
+                gm.activeEnemies.Remove(this);
                 gm.DamagePlayer();
                 //despawn enemy
                 
@@ -79,7 +88,42 @@ public class Enemy : MonoBehaviour {
 
         transform.position = pos;
 
-        Vector2 dir = nextTile.Position() - currTile.Position();
+        dir = nextTile.Position() - currTile.Position();
         spriteGO.transform.up = dir;
-	}
+
+        UpdateHealthBar();
+    }
+
+    public void TakeDamage(int damage)
+    {
+        currHealth -= damage;
+        UpdateHealthBar();
+
+        if (currHealth <= 0)
+        {
+            gm.SetMoney(gm.money + 1);
+            gm.activeEnemies.Remove(this);
+            Destroy(gameObject);
+        }
+    }
+
+    void UpdateHealthBar()
+    {
+        float size =  (float)currHealth / startHealth;
+        Vector2 scl = healthBar.transform.localScale;
+        Vector2 pos = healthBar.transform.localPosition;
+        scl.x = size;
+
+        if(dir.y == 0)
+        {
+            pos.y = -0.25f;
+        }
+        else
+        {
+            pos.y = -0.65f;
+        }
+
+        healthBar.transform.localPosition = pos;
+        healthBar.transform.localScale = scl;
+    }
 }

@@ -7,8 +7,10 @@ public class Projectile : MonoBehaviour {
     public float speed;
     public Enemy target;
     public Vector2 dest;
+    public int damage;
 
     public GameMaster gm;
+
 
 	// Use this for initialization
 	void Start () {
@@ -33,9 +35,11 @@ public class Projectile : MonoBehaviour {
     {
         if (target != null)
         {
-            gm.SetMoney(gm.money + 1);
-            Destroy(target.gameObject);
+            target.TakeDamage(damage);
         }
+
+        target.tag = "Untagged";
+        FindObjectOfType<Lines>().Flush();
         Destroy(gameObject);
     }
 }
