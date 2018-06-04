@@ -5,15 +5,22 @@ using UnityEngine;
 public class TouchManager : MonoBehaviour {
 
     Placer pl;
+    GameMaster gm;
 
     // Use this for initialization
     void Start () {
         pl = GameObject.FindObjectOfType<Placer>();
-	}
+        gm = GameObject.FindObjectOfType<GameMaster>();
+    }
 	
 	// Update is called once per frame
 	void Update () {
 
+
+        if(gm.gameOn == false)
+        {
+            return;
+        }
 
         if(Input.GetMouseButtonDown(0)){
 

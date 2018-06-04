@@ -12,7 +12,6 @@ public class GameMaster : MonoBehaviour {
     public int health = 3;
     public bool gameOn;
 
-    public Text gameovertext;
 
     public Text moneyText;
     public GameObject healthContainer;
@@ -21,6 +20,9 @@ public class GameMaster : MonoBehaviour {
     public List<Enemy> activeEnemies;
 
     public GameObject nextLevelScreen;
+    public GameObject endGameScreen;
+    public GameObject gameOverScreen;
+    public GameObject PauseScreen;
 
 	// Use this for initialization
 	void Start () {
@@ -62,7 +64,7 @@ public class GameMaster : MonoBehaviour {
     }
     public void GameOver()
     {
-        gameovertext.gameObject.SetActive(true);
+        gameOverScreen.gameObject.SetActive(true);
         gameOn = false;
     }
 
@@ -79,11 +81,20 @@ public class GameMaster : MonoBehaviour {
         es.waveIndex = 0;
 
         Reset();
-        gameOn = true;
+        StartCoroutine(WaitBeforeStart());
     }
     public void PromptNextLevel()
     {
-        nextLevelScreen.SetActive(true);
+        gameOn = false;
+
+        if (gg.mapIndex == gg.mapList.Count - 1)
+        {
+            endGameScreen.SetActive(true);
+        }
+        else
+        {
+            nextLevelScreen.SetActive(true);
+        }
     }
 
 
@@ -95,25 +106,69 @@ public class GameMaster : MonoBehaviour {
             Destroy(pl.transform.GetChild(i).gameObject);
 
         }
+        
+        for (int i = 0; i < es.transform.childCount; i++)
+        {
+            Destroy(es.transform.GetChild(i).gameObject);
 
-            Debug.Log("RESET");
+        }
+
+        Debug.Log("RESET");
             health = 3;
            
     
             money = 200;
+
+        UpdateStatusBar();
     }
+
+    public void Restart()
+    {
+        gg.mapIndex = 0;
+
+        nextLevelScreen.SetActive(false);
+        endGameScreen.SetActive(false);
+        gameOverScreen.gameObject.SetActive(false);
+
+        Debug.Log("RESTART");
+
+        gg.mapIndex = 0;
+        gg.SetUpMap();
+
+        es.waveIndex = 0;
+
+        Reset();
+
+        StartCoroutine(WaitBeforeStart());
+    }
+
+    IEnumerator WaitBeforeStart()
+    {
+        yield return new WaitForSeconds(1);
+        gameOn = true;
+
+    }
+
+    public void PauseUnPause()
+    {
+        PauseScreen.SetActive(!PauseScreen.activeSelf);
+        gameOn = !gameOn;
+    }
+
     public void UpdateStatusBar()
     {
 
         int i;
-        for ( i = 0; i < Mathf.Max( transform.childCount,health); i++)
+        for ( i = 0; i < Mathf.Max( healthContainer.transform.childCount,health); i++)
         {
-            if (healthContainer.transform.childCount <= i)
+
+            if (healthContainer.transform.childCount < i + 1)
             {
                 Instantiate(heart,healthContainer.transform);
             }
-            else
+            if ( i + 1 > health)
             {
+
                 Destroy(healthContainer.transform.GetChild(i).gameObject);
             }
         }

@@ -28,12 +28,18 @@ public class Placer : MonoBehaviour {
 
         go.name = "Cannon" + Random.Range(1, 100);
 
-        gm.SetMoney( gm.money - selectedPrefab.GetComponent<Placeable>().price);
+        Placeable pl = selectedPrefab.GetComponent<Placeable>();
+
+        gm.SetMoney( gm.money - pl.price);
+
+        t.building = pl;
     }
 
     public bool IsPlaceable(Tile t)
     {
-        if (t.building == null && t.tileType == TileType.Buildable && gm.money >= selectedPrefab.GetComponent<Placeable>().price)
+        if (t.building == null && 
+            t.tileType == TileType.Buildable && gm.money >= selectedPrefab.GetComponent<Placeable>().price 
+            && gm.gameOn == true)
         {
             return true;
         }

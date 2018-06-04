@@ -72,7 +72,7 @@ public class Cannon : Placeable {
 
                     d1 = target.speed * t;
                     d2 = Vector2.Distance(p, transform.position);
-                Debug.Log(t);
+                //Debug.Log(t);
 
                 } while (Mathf.Abs( d1 / d2 - (target.speed / projectileSpeed)) > threshold);
 

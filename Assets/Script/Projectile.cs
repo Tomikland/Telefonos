@@ -19,6 +19,12 @@ public class Projectile : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+        if(gm.gameOn == false)
+        {
+            return;
+        }
+
         Vector2 pos = transform.position;
 
         pos = Vector2.MoveTowards(pos, dest, speed * Time.deltaTime);
