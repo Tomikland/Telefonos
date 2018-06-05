@@ -109,13 +109,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1111882611667156}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4516966507529796}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
 --- !u!4 &4335640808172916
 Transform:
   m_ObjectHideFlags: 1
@@ -172,11 +172,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 1.5
   enemySprite: {fileID: 21300000, guid: 633ef6aa341b3d84b97f528c9700bb62, type: 3}
-  startHealth: 5
+  startHealth: 7
   currHealth: 0
   spriteGO: {fileID: 1111882611667156}
   currIndex: 0
   dir: {x: 0, y: 0}
+  worth: 15
   healthBar: {fileID: 1509061234126184}
 --- !u!212 &212214763354588098
 SpriteRenderer:

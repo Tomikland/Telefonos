@@ -109,13 +109,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1534590498685158}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4793938220781550}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
 --- !u!4 &4465956723155492
 Transform:
   m_ObjectHideFlags: 1
@@ -172,11 +172,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 1
   enemySprite: {fileID: 0}
-  startHealth: 3
+  startHealth: 8
   currHealth: 0
   spriteGO: {fileID: 1534590498685158}
   currIndex: 0
   dir: {x: 0, y: 0}
+  worth: 10
   healthBar: {fileID: 1790852777885128}
 --- !u!212 &212157426959243768
 SpriteRenderer:
@@ -304,7 +305,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 09a69c67bceedaf4e8dc06409abab767, type: 3}
-  m_Color: {r: 0.9433962, g: 0, b: 0.017925479, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

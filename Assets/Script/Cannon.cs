@@ -27,7 +27,7 @@ public class Cannon : Placeable {
         gm = GameObject.FindObjectOfType<GameMaster>();
         lines = FindObjectOfType<Lines>();
 
-        price = 10;
+        //price = 10;
         lines.Flush();
 	}
 	
@@ -49,13 +49,13 @@ public class Cannon : Placeable {
         {
             lines.Flush();
             Enemy target = FindEnemy();
-                shotCooldown = baseCooldown;
+            shotCooldown = baseCooldown;
             if (target != null && target.path.Count > 0)
             {
                 float d1;
                 float d2;
                 Vector2 p = target.transform.position;
-                Vector2 result;
+                Vector2 result = target.transform.position;
                 float t = 0;
 
                 do
@@ -63,20 +63,23 @@ public class Cannon : Placeable {
                     t += increment;
                     p = TileHelper.PredictEnemyPos(target, t);
 
-                    if(p == Vector2.zero)
+                    if(p == Vector2.zero || t > 10)
                     {
                         //Debug.Log("Couldn't find a shot");
-                        //return;
+                        p = target.transform.position;
+                        break;
                     }
 
-                    d1 = Vector2.Distance(p, target.transform.position);
+                    d1 = target.speed * t;
                     d2 = Vector2.Distance(p, transform.position);
+                //Debug.Log(t);
 
                 } while (Mathf.Abs( d1 / d2 - (target.speed / projectileSpeed)) > threshold);
 
+
+
                 result = p;
 
-                //Debug.Log(p);
                 //Shoot
 
                 Vector3 offset = new Vector3(0, 0, -0.1f);

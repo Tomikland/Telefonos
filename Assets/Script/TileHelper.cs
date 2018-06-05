@@ -14,7 +14,17 @@ public static class TileHelper
 
     public static Tile TileUnderPos(Vector2 pos)
     {
-        return tiles[Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y)];
+        int x = Mathf.RoundToInt(pos.x);
+        int y = Mathf.RoundToInt(pos.y);
+
+        if (x >= tiles.GetLength(0) || x < 0 || y >= tiles.GetLength(1) || y < 0)
+        {
+            return null;
+        }
+        else
+        {
+            return tiles[x, y];
+        }
     }
 
     public static List<Tile> Neighbours4(Tile t)
@@ -62,7 +72,15 @@ public static class TileHelper
 
     public static bool checkStartDiff(Vector2 startDir, Vector2 nextTileDir)
     {
-        if ((startDir.x == nextTileDir.x && (startDir.x != 0 && nextTileDir.x != 0)) || (startDir.y == nextTileDir.y && (startDir.y != 0 && nextTileDir.y != 0)))
+        if (
+            (startDir.x == nextTileDir.x && (startDir.x != 0 && nextTileDir.x != 0))
+            ||
+            (startDir.y == nextTileDir.y && (startDir.y != 0 && nextTileDir.y != 0))
+            ||
+            (startDir.x == nextTileDir.y && (startDir.x != 0 && nextTileDir.y != 0))
+            ||
+            (startDir.y == nextTileDir.x && (startDir.y != 0 && nextTileDir.x != 0))
+            )
             return false;
         else
             return true;
@@ -79,21 +97,24 @@ public static class TileHelper
         int endIndex = index + currIndex; //index of the end tile
         float startDifference =
            checkStartDiff(startDir, nextTileDirStart) ?
-                Vector2.Distance(pos, pos2) //start point to start tile
+                -(Vector2.Distance(pos, pos2))
             :
-                -(Vector2.Distance(pos, pos2));
+                Vector2.Distance(pos, pos2); //start point to start tile
         float pathDistance = enemy.speed * t; //distance from start point to end point
-        float pathDistanceWithoutEndDifference = index + startDifference;
-        float endDifference = pathDistance - pathDistanceWithoutEndDifference; //end tile to end point
-        float difference = startDifference + endDifference;
+        float endDifference = pathDistance - index - startDifference; //end tile to end point
 
         Vector2 endDir = Vector2.zero;
         if (endIndex + 2 <= enemy.path.Count)
         {
-            endDir = Mathf.Sign(difference) == -1 ?
-                    enemy.path[endIndex].Position() - enemy.path[endIndex - 1].Position()
-                :
-                    enemy.path[endIndex + 1].Position() - enemy.path[endIndex].Position();
+            if (Mathf.Sign(endDifference) == -1)
+            {
+                endDir = enemy.path[endIndex].Position() - enemy.path[endIndex - 1].Position();
+            }
+            else
+            {
+                endDir = enemy.path[endIndex + 1].Position() - enemy.path[endIndex].Position();
+            }
+
         }
         else
         {
@@ -115,9 +136,9 @@ public static class TileHelper
             "\n pathDistance: " + pathDistance +
             "\n startDifference: " + startDifference +
             "\n endDiffenrence: " + endDifference +
-            "\n difference: " + difference +
+            //"\n difference: " + difference +
             "\n endDirection: " + endDir +
-            "\n pathDistanceWithoutEndDifference: " + pathDistanceWithoutEndDifference +
+            //"\n pathDistanceWithoutEndDifference: " + pathDistanceWithoutEndDifference +
             "\n startDirection: " + startDir +
             "\n endTile: " + endTile +
             "\n startDir + nextTileDir" + (startDir + nextTileDirStart)
