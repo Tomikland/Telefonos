@@ -5,7 +5,6 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour {
 
     int seed;
-    int samplePos = 0;
 
     public GameObject enemyPrefab;
 
@@ -27,18 +26,21 @@ public class EnemySpawner : MonoBehaviour {
         //----------------------------STAGE 1-------------------------------------
 
         waves = new List<Wave>();
-        waves.Add(new Wave(3,2f,new List<EnemyType> {EnemyType.brown, EnemyType.green }));
-        waves.Add(new Wave(5, 1.5f, new List<EnemyType> { EnemyType.brown, EnemyType.viking }));
+        waves.Add(new Wave(3,4f,new List<EnemyType> {EnemyType.brown, EnemyType.green }));
+        waves.Add(new Wave(5, 3f, new List<EnemyType> { EnemyType.brown, EnemyType.viking }));
+        waves.Add(new Wave(5, 2f, new List<EnemyType> { EnemyType.brown, EnemyType.viking, EnemyType.green }));
         mapComp.Add(0, waves);
 
         //----------------------------STAGE 2-------------------------------------
 
         waves = new List<Wave>();
-        waves.Add(new Wave(3, 2f, new List<EnemyType> { EnemyType.brown, EnemyType.green }));
-        waves.Add(new Wave(5, 1.5f, new List<EnemyType> { EnemyType.brown, EnemyType.viking }));
+        waves.Add(new Wave(5, 3f, new List<EnemyType> {  EnemyType.green }));
+        waves.Add(new Wave(10, 2f, new List<EnemyType> { EnemyType.brown, EnemyType.viking }));
+        waves.Add(new Wave(10, 1.5f, new List<EnemyType> { EnemyType.brown, EnemyType.viking }));
+        waves.Add(new Wave(10, 1f, new List<EnemyType> { EnemyType.brown, EnemyType.green }));
         mapComp.Add(1, waves);
 
-        //----------------------------STAGE 2-------------------------------------
+        //----------------------------STAGE 3-------------------------------------
 
         waves = new List<Wave>();
         waves.Add(new Wave(3, 2f, new List<EnemyType> { EnemyType.brown, EnemyType.green }));
@@ -50,7 +52,7 @@ public class EnemySpawner : MonoBehaviour {
     public float maxCooldown = 10f;
 
     public float cooldown = 2;
-    int waveIndex;
+    public int waveIndex;
 
     public int spawnedEnemies;
 	// Update is called once per frame
@@ -65,8 +67,8 @@ public class EnemySpawner : MonoBehaviour {
 
         if (waveIndex >= waves.Count && gm.activeEnemies.Count == 0)
         {
-            waveIndex = 0;
-            gm.NextLevel();
+            
+            gm.PromptNextLevel();
 
         }
 

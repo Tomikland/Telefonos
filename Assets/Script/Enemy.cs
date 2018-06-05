@@ -20,6 +20,7 @@ public class Enemy : MonoBehaviour {
     public int currIndex = 0;
 
     public Vector2 dir;
+    public int worth = 5;   
 
     public GameObject healthBar;
 
@@ -31,6 +32,7 @@ public class Enemy : MonoBehaviour {
         gg = GameObject.FindObjectOfType<GameGrid>();
 
         path = gg.path;
+
 
         currTile = path[currIndex];
         nextTile = path[currIndex + 1];
@@ -101,7 +103,7 @@ public class Enemy : MonoBehaviour {
 
         if (currHealth <= 0)
         {
-            gm.SetMoney(gm.money + 1);
+            gm.SetMoney(gm.money + worth);
             gm.activeEnemies.Remove(this);
             Destroy(gameObject);
         }
@@ -111,7 +113,7 @@ public class Enemy : MonoBehaviour {
     {
         float size =  (float)currHealth / startHealth;
         Vector2 scl = healthBar.transform.localScale;
-        Vector2 pos = healthBar.transform.localPosition;
+        Vector3 pos = healthBar.transform.localPosition;
         scl.x = size;
 
         if(dir.y == 0)
@@ -122,6 +124,8 @@ public class Enemy : MonoBehaviour {
         {
             pos.y = -0.65f;
         }
+
+        pos.z = -2.5f;
 
         healthBar.transform.localPosition = pos;
         healthBar.transform.localScale = scl;
