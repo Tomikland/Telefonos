@@ -62,12 +62,20 @@ public static class TileHelper
 
     public static bool checkStartDiff(Vector2 startDir, Vector2 nextTileDir)
     {
-        if ((startDir.x == nextTileDir.x && (startDir.x != 0 && nextTileDir.x != 0)) || (startDir.y == nextTileDir.y && (startDir.y != 0 && nextTileDir.y != 0)))
+        if (
+            (startDir.x == nextTileDir.x && (startDir.x != 0 && nextTileDir.x != 0)) 
+            || 
+            (startDir.y == nextTileDir.y && (startDir.y != 0 && nextTileDir.y != 0))
+            ||
+            (startDir.x == nextTileDir.y && (startDir.x != 0 && nextTileDir.y != 0)) 
+            ||
+            (startDir.y == nextTileDir.x && (startDir.y != 0 && nextTileDir.x != 0))
+            )
             return false;
         else
             return true;
     }
-
+    
     public static Vector2 PredictEnemyPos(Enemy enemy, float t)
     {
         Vector2 pos = enemy.transform.position;
