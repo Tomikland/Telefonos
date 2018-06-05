@@ -14,7 +14,7 @@ public class CustomButton : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         //Touch touch = Input.GetTouch(0);
-        /*
+
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -29,7 +29,6 @@ public class CustomButton : MonoBehaviour {
             }
 
         }
-        */
         
 	}
 

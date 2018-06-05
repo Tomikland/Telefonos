@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Placer : MonoBehaviour {
 
-    public GameObject cannonPrefab;
-    public GameObject spellPrefab;
+    public GameObject selectedPrefab;
     GameMaster gm;
 
 	// Use this for initialization
@@ -19,43 +18,22 @@ public class Placer : MonoBehaviour {
 		
 	}
 
-    public void PLaceCannonoOnTile(Tile t)
+    public void PlaceSelectedOnTile(Tile t)
     {
         //Debug.Log("Placing");
 
         Vector3 pos = t.tileGo.transform.position;
 
-        GameObject go = Instantiate(cannonPrefab,pos,Quaternion.identity,transform);
+        GameObject go = Instantiate(selectedPrefab,pos,Quaternion.identity,transform);
 
         go.name = "Cannon" + Random.Range(1, 100);
 
-        Placeable pl = go.GetComponent<Placeable>();
-
-        gm.SetMoney( gm.money - pl.price);
-
-        t.building = pl;
-    }
-    public void PlaceSpellOnTile(Tile t)
-    {
-
-        Vector3 pos = t.tileGo.transform.position;
-
-        GameObject go = Instantiate(spellPrefab, pos, Quaternion.identity, transform);
-
-        go.name = "Spell" + Random.Range(1, 100);
-
-        Placeable pl = go.GetComponent<Placeable>();
-
-        gm.SetMoney(gm.money - pl.price);
-
+        gm.SetMoney( gm.money - selectedPrefab.GetComponent<Placeable>().price);
     }
 
     public bool IsPlaceable(Tile t)
     {
-        if (t != null &&
-            t.building == null && 
-            t.tileType == TileType.Buildable && gm.money >= cannonPrefab.GetComponent<Placeable>().price 
-            && gm.gameOn == true)
+        if (t.building == null && t.tileType == TileType.Buildable && gm.money >= selectedPrefab.GetComponent<Placeable>().price)
         {
             return true;
         }
@@ -64,19 +42,5 @@ public class Placer : MonoBehaviour {
             return false;
         }
 
-    }
-
-    public bool IsPath(Tile t)
-    {
-        if(t != null && 
-           t.tileType == TileType.Path && 
-           gm.money >= spellPrefab.GetComponent<Placeable>().price)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
     }
 }

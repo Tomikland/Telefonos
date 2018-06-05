@@ -7,10 +7,8 @@ public class Projectile : MonoBehaviour {
     public float speed;
     public Enemy target;
     public Vector2 dest;
-    public int damage;
 
     public GameMaster gm;
-
 
 	// Use this for initialization
 	void Start () {
@@ -19,12 +17,6 @@ public class Projectile : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
-        if(gm.gameOn == false)
-        {
-            return;
-        }
-
         Vector2 pos = transform.position;
 
         pos = Vector2.MoveTowards(pos, dest, speed * Time.deltaTime);
@@ -41,11 +33,9 @@ public class Projectile : MonoBehaviour {
     {
         if (target != null)
         {
-            target.TakeDamage(damage);
-            target.tag = "Untagged";
+            gm.SetMoney(gm.money + 1);
+            Destroy(target.gameObject);
         }
-
-        FindObjectOfType<Lines>().Flush();
         Destroy(gameObject);
     }
 }
